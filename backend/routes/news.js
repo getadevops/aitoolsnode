@@ -1,33 +1,29 @@
 // backend/routes/news.js
 const express = require('express');
 const router = express.Router();
-const News = require('../models/news');
+
+const defaultNews = [
+  {
+    _id: "1",
+    title: "AI discovers new antibiotic",
+    source: "BBC News",
+    date: new Date(),
+    link: "https://www.bbc.com/news/health-64655216",
+    createdAt: new Date()
+  },
+  {
+    _id: "2",
+    title: "The rise of generative AI",
+    source: "TechCrunch",
+    date: new Date(),
+    link: "https://techcrunch.com/2023/03/29/the-rise-of-generative-ai/",
+    createdAt: new Date()
+  }
+];
 
 // GET all news
-router.get('/', async (req, res) => {
-  try {
-    const news = await News.find().sort({ date: -1 });
-    res.json(news);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// POST a new news article
-router.post('/', async (req, res) => {
-  const news = new News({
-    title: req.body.title,
-    source: req.body.source,
-    date: req.body.date,
-    link: req.body.link,
-  });
-
-  try {
-    const newNews = await news.save();
-    res.status(201).json(newNews);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+router.get('/', (req, res) => {
+  res.json(defaultNews);
 });
 
 module.exports = router;

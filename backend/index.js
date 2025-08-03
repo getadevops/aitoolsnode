@@ -8,10 +8,10 @@ app.use(express.json());
 
 // Database connection
 // TODO: Replace with your actual MongoDB connection string
-const dbURI = 'mongodb://localhost:27017/ai-toolify';
-mongoose.connect(dbURI)
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err));
+// const dbURI = 'mongodb://localhost:27017/ai-toolify';
+// mongoose.connect(dbURI)
+//   .then(() => console.log('MongoDB connected...'))
+//   .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
   res.send('Hello World from the AI Toolify backend!');

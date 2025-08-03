@@ -1,35 +1,29 @@
 // backend/routes/jobs.js
 const express = require('express');
 const router = express.Router();
-const Job = require('../models/job');
-const auth = require('../middleware/auth');
+
+const defaultJobs = [
+  {
+    _id: "1",
+    title: "AI Engineer",
+    company: "Google",
+    location: "Mountain View, CA",
+    description: "Work on the latest AI technologies.",
+    createdAt: new Date()
+  },
+  {
+    _id: "2",
+    title: "Machine Learning Scientist",
+    company: "Facebook",
+    location: "Menlo Park, CA",
+    description: "Develop new machine learning models.",
+    createdAt: new Date()
+  }
+];
 
 // GET all jobs
-router.get('/', async (req, res) => {
-  try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
-    res.json(jobs);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// POST a new job
-router.post('/', auth, async (req, res) => {
-  const job = new Job({
-    title: req.body.title,
-    company: req.body.company,
-    location: req.body.location,
-    description: req.body.description,
-    submittedBy: req.user.id
-  });
-
-  try {
-    const newJob = await job.save();
-    res.status(201).json(newJob);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+router.get('/', (req, res) => {
+  res.json(defaultJobs);
 });
 
 module.exports = router;

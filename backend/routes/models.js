@@ -1,32 +1,40 @@
 // backend/routes/models.js
 const express = require('express');
 const router = express.Router();
-const Model = require('../models/model');
+
+const defaultModels = [
+  {
+    _id: "1",
+    name: "GPT-4",
+    description: "A large-scale, multimodal model that can accept image and text inputs and produce text outputs.",
+    link: "https://openai.com/research/gpt-4",
+    createdAt: new Date()
+  },
+  {
+    _id: "2",
+    name: "Claude 3",
+    description: "A family of large language models developed by Anthropic.",
+    link: "https://www.anthropic.com/news/claude-3-family",
+    createdAt: new Date()
+  }
+];
 
 // GET all models
 router.get('/', async (req, res) => {
-  try {
-    const models = await Model.find().sort({ createdAt: -1 });
-    res.json(models);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  res.json(defaultModels);
 });
 
 // POST a new model
 router.post('/', async (req, res) => {
-  const model = new Model({
+  const newModel = {
+    _id: (defaultModels.length + 1).toString(),
     name: req.body.name,
     description: req.body.description,
     link: req.body.link,
-  });
-
-  try {
-    const newModel = await model.save();
-    res.status(201).json(newModel);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+    createdAt: new Date()
+  };
+  defaultModels.push(newModel);
+  res.status(201).json(newModel);
 });
 
 module.exports = router;
